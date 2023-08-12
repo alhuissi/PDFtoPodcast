@@ -80,7 +80,7 @@ function Page() {
               </button>
               <br />
             </form>
-            <div className="text-center">
+            {/*<div className="text-center">
               <span className="text-black">or</span>
             </div>
             <button
@@ -88,7 +88,7 @@ function Page() {
               onClick={() => handleLoginWithGoogle()}
             >
               Sign in with Google
-            </button>
+            </button>*/}
             <div className="text-center">
               <span className="text-black">
                 Don't have an account?{" "}

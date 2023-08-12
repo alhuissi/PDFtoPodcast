@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useAuthContext } from "../src/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import Upload from "../../components/Upload";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
@@ -12,7 +13,7 @@ import LoadingDots from "../../components/LoadingDots";
 import ResizablePanel from "../../components/ResizablePanel";
 import { createSpodkast } from "../src/services/spodkast";
 
-export default function GeneratePage() {
+export default function BuyCreditsPage() {
   const { user }: any = useAuthContext();
   const router = useRouter();
 
@@ -64,7 +65,7 @@ export default function GeneratePage() {
           ",";
         formData.append("files", file);
       });
-      pdfUrls = pdfUrls.slice(0, -1)
+      pdfUrls = pdfUrls.slice(0, -1);
 
       const res = await fetch("/generate-podcast", {
         method: "POST",
@@ -90,8 +91,8 @@ export default function GeneratePage() {
         setLoading(false);
         setDocuments(null);
         setPodcastLoaded(true);
-        setPodcastName("")
-        setInstructions("")
+        setPodcastName("");
+        setInstructions("");
       }
     } catch (e: any) {
       //console.log(e);
@@ -174,7 +175,15 @@ export default function GeneratePage() {
                   Here's your <b>Podcast</b>
                 </div>
               )}
-              {<Upload fileList={documents} setFileList={setDocuments} />}
+              {user.credits >= 1 ? (
+                <Upload fileList={documents} setFileList={setDocuments} />
+              ) : (
+                <Link href="/buy-credits" className="mt-6">
+                  <button className="bg-primary-600 rounded-xl text-white font-medium px-4 py-2 hover:bg-primary-700 transition">
+                    Buy credits
+                  </button>
+                </Link>
+              )}
               {loading && (
                 <button
                   disabled

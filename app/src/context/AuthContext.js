@@ -3,8 +3,16 @@ import React from "react";
 import { onAuthStateChanged, getAuth } from "firebase/auth";
 import LoadingDots from "../../../components/LoadingDots";
 import { firebaseApp } from "../../firebase";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  collection,
+} from "firebase/firestore";
 
 const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
 
 export const AuthContext = React.createContext({});
 
@@ -14,10 +22,25 @@ export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
+  const getUserData = async (userId) => {
+    const configPath = `users/`;
+    const docRef = doc(
+      collection(db, configPath),
+      `${userId}`
+    );
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const docData = docSnap.data();
+      console.log("User data found: ", docData);
+      return docData;
+    }
+  };
+
   React.useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        setUser(user);
+        const userData = await getUserData(user.uid);
+        setUser(userData);
       } else {
         setUser(null);
       }
