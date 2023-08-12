@@ -64,7 +64,7 @@ export default function GeneratePage() {
           ",";
         formData.append("files", file);
       });
-      pdfUrls = pdfUrls.slice(0, -1)
+      pdfUrls = pdfUrls.slice(0, -1);
 
       const res = await fetch("/generate-podcast", {
         method: "POST",
@@ -90,8 +90,8 @@ export default function GeneratePage() {
         setLoading(false);
         setDocuments(null);
         setPodcastLoaded(true);
-        setPodcastName("")
-        setInstructions("")
+        setPodcastName("");
+        setInstructions("");
       }
     } catch (e: any) {
       //console.log(e);
@@ -110,9 +110,7 @@ export default function GeneratePage() {
         <p>1 credit = 1 podcast</p>
         <ResizablePanel>
           <AnimatePresence mode="wait">
-            <motion.div className="flex justify-between items-center w-full flex-col mt-4">
-              
-            </motion.div>
+            <motion.div className="flex justify-between items-center w-full flex-col mt-4"></motion.div>
           </AnimatePresence>
         </ResizablePanel>
       </main>
